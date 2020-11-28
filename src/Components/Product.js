@@ -3,7 +3,7 @@ import 'semantic-ui-css/semantic.min.css'
 import { Card, Icon, Image, Button } from 'semantic-ui-react'
 
 const Product = ({product}) => {
-    console.log(product)
+    // console.log(product)
     return (
         <Card>
             <Image src={product.image} wrapped ui={false} />

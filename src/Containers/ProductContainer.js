@@ -9,7 +9,9 @@ import {Grid } from 'semantic-ui-react'
 class ProductContainer extends Component{
 
     state = {
-        products: []
+        products: [],
+        searchValue: "",
+        selectedBrand: ""
     }
 
     componentDidMount = () =>{
@@ -20,21 +22,40 @@ class ProductContainer extends Component{
         })))
     }
 
-    renderProducts = () =>{
-        return this.state.products.map(product => <Grid.Column><Product key={product.id} product={product}/></Grid.Column>)
+    filteredProducts = () => {
+        return this.filteredProductsByBrand().filter(productObj => productObj.name.toLowerCase().includes(this.state.searchValue.toLowerCase()) )
     }
 
+    renderProducts = () =>{
+        return this.filteredProducts().map(product => <Grid.Column><Product key={product.id} product={product}/></Grid.Column>)
+    }
 
+    brandOnChange = (e) => {
+        this.setState({ selectedBrand: e.target.value})
+    }
+
+    filteredProductsByBrand = () => {
+        return this.state.products.filter(product_obj => product_obj.brand.name.includes(this.state.selectedBrand))
+    }
+
+    searchHandler = (e) => {
+        this.setState({ searchValue: e.target.value})
+    }
 
     render(){
-        console.log(this.state.products)
+        console.log(this.filteredProductsByBrand())
         return (
             <>
+                <Search searchValue={this.searchValue} searchHandler={this.searchHandler}/>
+                <br></br>
+                <br></br>
+                <FilterByBrand  brandOnChange={this.brandOnChange} />
+                <br></br>
+                <br></br>
+
                 <Grid relaxed columns ={4}>
                     {this.renderProducts()}
                 </Grid>
-                <Search />
-                <FilterByBrand />
             </>
         )
     }
