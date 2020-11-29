@@ -7,12 +7,18 @@ import React from 'react'
 // import Cart from './Containers/Cart'
 // import ProductContainer from './Containers/ProductContainer'
 import ProductPage from './Components/ProductPage'
+import { BrowserRouter} from 'react-router-dom'
+
 
 class App extends React.Component {
   render(){
     return (
       <>  
+      <BrowserRouter>
         <ProductPage/>
+      
+      </BrowserRouter>
+
       </>
     )
 
