@@ -38,6 +38,31 @@ class ProductPage extends Component {
         })
     }
 
+    updateQuantityHandler = (cartProduct, updatedQuantity) => {
+        console.log("testing", cartProduct, updatedQuantity) 
+        if(updatedQuantity >= 1 || updatedQuantity <= 4){
+            fetch(`http://localhost:3000/api/v1/cart_products/${cartProduct.id}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify({ quantity: updatedQuantity })
+            })
+            .then(r => r.json())
+            .then(newItem => {
+                let copiedArray = [...this.state.cartItems]
+                let oldObject = copiedArray.findIndex(itemObj => itemObj.id === newItem.id )
+                copiedArray[oldObject] = newItem
+                this.setState({ cartItems: copiedArray})
+            })
+
+        }else {
+            alert("Quantity must be from 1-4!")
+        }
+
+    }
+
 
     render(){
         return (
@@ -49,7 +74,7 @@ class ProductPage extends Component {
                 <button>Cart</button>
             </NavLink>
             <Switch>
-                <Route path="/cart" render={() => <Cart cartItems={this.state.cartItems} />}/> 
+                <Route path="/cart" render={() => <Cart cartItems={this.state.cartItems} updateQuantityHandler={this.updateQuantityHandler} />}/> 
                 <Route path="/products" render={() => <ProductContainer  addingCartProducts={ this.addingCartProducts} />}/>
             </Switch>
            
