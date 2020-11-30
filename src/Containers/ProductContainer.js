@@ -4,6 +4,9 @@ import Search from '../Components/Search'
 import FilterByBrand from '../Components/FilterByBrand'
 import 'semantic-ui-css/semantic.min.css'
 import {Grid } from 'semantic-ui-react'
+import { Route, Switch } from 'react-router-dom'
+import ProductInfo from '../Components/ProductInfo'
+
 
 
 class ProductContainer extends Component{
@@ -46,7 +49,40 @@ class ProductContainer extends Component{
         // console.log(this.filteredProductsByBrand())
         return (
             <>
-                <Search searchValue={this.searchValue} searchHandler={this.searchHandler}/>
+                {this.state.products.length === 0 ? 
+                
+                <h1>Loading products...</h1>
+                
+                : 
+                    <>
+                        <Switch>
+                            <Route path="/products/:id" render={({match})=> {
+                                let urlId = parseInt(match.params.id)
+                                let foundProduct = this.state.products.find(product=> product.id === urlId)
+                                return <ProductInfo product={foundProduct}/>
+
+                            }}/>
+                            <Route path="/products" render={()=> (
+                                <>
+                                    <Search searchValue={this.searchValue} searchHandler={this.searchHandler}/>
+                                    <br></br>
+                                    <br></br>
+                                    <FilterByBrand  brandOnChange={this.brandOnChange} />
+                                    <br></br>
+                                    <br></br>
+
+                                    <Grid relaxed columns ={4}>
+                                        {this.renderProducts()}
+                                    </Grid>
+                                </>
+                            )}/>
+                            
+
+                        </Switch>
+                    </>
+                
+                }
+                {/* <Search searchValue={this.searchValue} searchHandler={this.searchHandler}/>
                 <br></br>
                 <br></br>
                 <FilterByBrand  brandOnChange={this.brandOnChange} />
@@ -55,7 +91,7 @@ class ProductContainer extends Component{
 
                 <Grid relaxed columns ={4}>
                     {this.renderProducts()}
-                </Grid>
+                </Grid> */}
             </>
         )
     }

@@ -9,3 +9,7 @@
   text-decoration: none;
   cursor: pointer;
 }
+
+.productInfoImage {
+  max-width: 400px;
+}

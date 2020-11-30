@@ -11,11 +11,23 @@ class Product extends React.Component {
       this.props.addingCartProducts(this.props.product)
     }
 
+    // localClickHandler = () =>{
+    //     console.log("clicked")
+
+    //     <NavLink to={`/products/${this.props.product.id}`}></NavLink>
+    // }
+
     render(){
         console.log(this.props.product)
       return (
           <Card>
-              <Image src={this.props.product.image} wrapped ui={false} />
+              <NavLink to={`/products/${this.props.product.id}`}>
+                  <Card>
+                  <Image onClick={this.localClickHandler} src={this.props.product.image} wrapped ui={false} />
+
+                  </Card>
+                </NavLink>
+              
               <Card.Content>
               <Card.Header>{this.props.product.name}</Card.Header>
               <Card.Meta>
