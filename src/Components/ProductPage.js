@@ -40,7 +40,8 @@ class ProductPage extends Component {
 
     updateQuantityHandler = (cartProduct, updatedQuantity) => {
         console.log("testing", cartProduct, updatedQuantity) 
-        if(updatedQuantity >= 1 || updatedQuantity <= 4){
+        
+        if(updatedQuantity >= 1 && updatedQuantity <= 4){
             fetch(`http://localhost:3000/api/v1/cart_products/${cartProduct.id}`, {
                 method: "PATCH",
                 headers: {
@@ -56,9 +57,7 @@ class ProductPage extends Component {
                 copiedArray[oldObject] = newItem
                 this.setState({ cartItems: copiedArray})
             })
-
-        }else {
-            alert("Quantity must be from 1-4!")
+            // console.log("not being warned:", updatedQuantity)
         }
 
     }

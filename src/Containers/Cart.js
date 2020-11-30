@@ -6,6 +6,18 @@ import { Item } from 'semantic-ui-react'
 
 class Cart extends React.Component {
 
+    cartTotalPrice = () =>{
+        return this.props.cartItems.map(cartP =>
+            ({
+                price: cartP.product.price,
+                quantity: cartP.quantity})
+                ).reduce((a, b)=> a + (b.price * b.quantity), 0)
+    }
+
+    cartQuantity = () => {
+        return this.props.cartItems.map(cartP => cartP.quantity).reduce((a, b)=> a + b, 0)
+    }
+
     renderCartProducts = () => {
         return this.props.cartItems.map(cartObj => <CartProduct key={cartObj.id} cartProduct={cartObj} updateQuantityHandler={this.props.updateQuantityHandler} />)
     }
@@ -17,7 +29,7 @@ class Cart extends React.Component {
             <Item.Group>
                 {this.renderCartProducts()}
             </Item.Group>
-            
+                <h1>Total ({this.cartQuantity()} items): ${this.cartTotalPrice()}</h1>
             </>
         ) 
     }
