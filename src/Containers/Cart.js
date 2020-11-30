@@ -1,8 +1,9 @@
 import React from 'react'
 import CartProduct from '../Components/CartProduct'
 import 'semantic-ui-css/semantic.min.css'
-import { Item } from 'semantic-ui-react'
-import { Redirect } from 'react-router-dom'
+import { Item, Button} from 'semantic-ui-react'
+import { Redirect, Route, Switch, NavLink} from 'react-router-dom'
+import Checkout from '../Components/Checkout'
 
 
 class Cart extends React.Component {
@@ -23,22 +24,40 @@ class Cart extends React.Component {
         return this.props.cartItems.map(cartObj => <CartProduct key={cartObj.id} cartProduct={cartObj} updateQuantityHandler={this.props.updateQuantityHandler}  deleteCartProductHandler={this.props.deleteCartProductHandler} />)
     }
 
+    // checkOutHandler = () => {
+
+    // }
+
     render (){
         // debugger
         return(
             <>
-                {localStorage.getItem('token') ?  
-                    <>
-                    <Item.Group>
-                        {this.renderCartProducts()}
-                    </Item.Group>
-                        <h1>Total ({this.cartQuantity()} items): ${this.cartTotalPrice()}</h1>
-                        {/* <button className="checkou" onClick={this.logoutHandler}>Log Out</button> */}
-                    </>
-                
-                : 
-                    <Redirect to="/login"/>
-                }
+                <Switch>
+                    <Route path="/cart/checkout" render={() => <Checkout />}/>
+                    <Route path="/cart" render={() => {
+                        return (
+                            <>
+
+                            {localStorage.getItem('token') ?  
+                            <>
+                            <Item.Group>
+                                {this.renderCartProducts()}
+                            </Item.Group>
+                                <h1 style={{"float": "left", "margin": "0px"}}>Total ({this.cartQuantity()} items): ${this.cartTotalPrice()}</h1>
+                                <NavLink to="/cart/checkout">
+
+                                <Button floated='right' color="olive" >Checkout!</Button>
+                                </NavLink>
+                            </> 
+                        : 
+                            <Redirect to="/login"/>
+                        }
+                            </>
+                        )
+
+                    }}/>
+
+                </Switch>
             </>
 
         ) 

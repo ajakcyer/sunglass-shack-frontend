@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import 'semantic-ui-css/semantic.min.css'
-import { Divider, Item } from 'semantic-ui-react'
+import { Divider, Item, Button} from 'semantic-ui-react'
 
 export default class CartProduct extends Component {
 
@@ -48,11 +48,15 @@ export default class CartProduct extends Component {
                     <Item.Extra>Price: ${this.props.cartProduct.product.price}</Item.Extra>
                 </Item.Content>
                 <div className= "quantity-button">
-                    <input type="number" style={{ "width": "40px"}} value={this.state.quantity} onChange={this.onChangeHandler} /> 
+                    <label htmlFor="quantity">Quantity: </label>
+                    <input type="number" name="quantity" style={{ "width": "40px"}} value={this.state.quantity} onChange={this.onChangeHandler} /> 
                     {/* <button onClick={this.increaseQuantity}>+</button>
                     <button onClick={this.decreaseQuantity}>-</button> */}
+                    <br></br>
+                    <br></br>
+                <Button  onClick={this.deleteProduct} color="red" floated='right'>Remove</Button>
                 </div>
-                <button  onClick={this.deleteProduct} >Remove</button>
+                
             </Item>
             <Divider />
             </>
