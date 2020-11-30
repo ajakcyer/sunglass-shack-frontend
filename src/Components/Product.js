@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 import 'semantic-ui-css/semantic.min.css'
 import { Card, Icon, Image, Button } from 'semantic-ui-react'
 
@@ -24,12 +25,22 @@ class Product extends React.Component {
               </Card.Description>
               </Card.Content>
               <Card.Content extra>
+                {localStorage.getItem('token') ? 
               <Button onClick={this.addToCartHandler} animated='vertical'>
                   <Button.Content hidden>Purchase</Button.Content>
                   <Button.Content visible>
                       <Icon name='shop' />
                   </Button.Content>
               </Button>
+                
+                : 
+                <>
+                <NavLink to="/login">Login </NavLink>
+                or 
+                <NavLink to="/signup"> Sign up </NavLink>
+                to shop
+                </>
+                }
               </Card.Content>
           </Card>
       )

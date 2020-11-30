@@ -2,6 +2,7 @@ import React from 'react'
 import CartProduct from '../Components/CartProduct'
 import 'semantic-ui-css/semantic.min.css'
 import { Item } from 'semantic-ui-react'
+import { Redirect } from 'react-router-dom'
 
 
 class Cart extends React.Component {
@@ -24,13 +25,22 @@ class Cart extends React.Component {
 
     render (){
         
+        // debugger
         return(
             <>
-            <Item.Group>
-                {this.renderCartProducts()}
-            </Item.Group>
-                <h1>Total ({this.cartQuantity()} items): ${this.cartTotalPrice()}</h1>
+                {localStorage.getItem('token') ?  
+                    <>
+                    <Item.Group>
+                        {this.renderCartProducts()}
+                    </Item.Group>
+                        <h1>Total ({this.cartQuantity()} items): ${this.cartTotalPrice()}</h1>
+                    </>
+                
+                : 
+                    <Redirect to="/login"/>
+                }
             </>
+
         ) 
     }
 }
