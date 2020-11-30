@@ -9,9 +9,15 @@ export default class CartProduct extends Component {
     }
 
     onChangeHandler = (e) => {
-        this.setState({ quantity: e.target.value}, () => {
-            this.props.updateQuantityHandler(this.props.cartProduct, this.state.quantity)
-        })
+        if (e.target.value >= 1 && e.target.value <= 4){
+            this.setState({ quantity: e.target.value}, () => {
+                this.props.updateQuantityHandler(this.props.cartProduct, this.state.quantity)
+            })
+        } else if (e.target.value < 1){
+            alert("Must have at least 1, or delete from cart")
+        } else if (e.target.value > 4){
+            alert("Sorry, no more than 4 per customer!")
+        }
     }
 
     // increaseQuantity = () => {
@@ -38,7 +44,7 @@ export default class CartProduct extends Component {
                     <Item.Header as='a'>{this.props.cartProduct.product.name}</Item.Header>
                     <Item.Meta>Description</Item.Meta>
                     <Item.Description> {this.props.cartProduct.product.description}</Item.Description>
-                    <Item.Extra>${this.props.cartProduct.product.price * this.props.cartProduct.quantity}</Item.Extra>
+                    <Item.Extra>Price: ${this.props.cartProduct.product.price}</Item.Extra>
                 </Item.Content>
                 <div className= "quantity-button">
                     <input type="number" style={{ "width": "40px"}} value={this.state.quantity} onChange={this.onChangeHandler} /> 

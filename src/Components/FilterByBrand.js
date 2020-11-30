@@ -16,7 +16,7 @@ export default class FilterByBrand extends Component {
     }
 
     renderBrandOptions = () => {
-        return this.state.brands.map(brand => <option value={brand.name}> {brand.name}</option>)
+        return this.state.brands.map(brand => <option key={brand.id} value={brand.name}> {brand.name}</option>)
     }
 
     // brandProducts = () => {

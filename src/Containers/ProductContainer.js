@@ -27,7 +27,7 @@ class ProductContainer extends Component{
     }
 
     renderProducts = () =>{
-        return this.filteredProducts().map(product => <Grid.Column><Product key={product.id} product={product}  addingCartProducts={this.props.addingCartProducts} /></Grid.Column>)
+        return this.filteredProducts().map(product => <Grid.Column key={product.id}><Product key={product.id} product={product}  addingCartProducts={this.props.addingCartProducts} /></Grid.Column>)
     }
 
     brandOnChange = (e) => {
