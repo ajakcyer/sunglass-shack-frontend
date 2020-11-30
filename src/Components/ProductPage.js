@@ -6,6 +6,7 @@ import Signup from '../Auth/Signup'
 import Cart from '../Containers/Cart'
 import ProductContainer from '../Containers/ProductContainer'
 import { NavLink, Route, Switch, withRouter } from 'react-router-dom'
+import {  Icon, Button } from 'semantic-ui-react'
 
 class ProductPage extends Component {
 
@@ -15,12 +16,12 @@ class ProductPage extends Component {
         current_cart: null
     }
 
-    currentUserCart = () =>{
-        debugger
-    }
+    // currentUserCart = () =>{
+        
+    // }
 
     addingCartProducts = (product) => {
-        // debugger
+        // 
         fetch("http://localhost:3000/api/v1/cart_products", {
             method: "POST",
             headers: {
@@ -37,10 +38,11 @@ class ProductPage extends Component {
     }
 
     foundCart = () => {
+        
         if (this.state.current_user.carts.length > 0){
             this.setState(prevState=>({
                 current_cart: this.state.current_user.carts[0]
-            }), () => this.fetchCartProducts() )
+            }), () =>  this.fetchCartProducts())
             
         } else {
             fetch("http://localhost:3000/api/v1/carts", {
@@ -66,7 +68,7 @@ class ProductPage extends Component {
         .then(r => r.json())
         .then(data => {
             let thisUserProducts = data.filter(dataObj => dataObj.cart.user_id === this.state.current_user.id )
-            // debugger
+            // 
             this.setState({ cartItems: thisUserProducts})
         })
     }
@@ -80,10 +82,11 @@ class ProductPage extends Component {
         })
         .then(r=>r.json())
         .then(data => {
-            // debugger
+            // 
             if(data.user){
                 this.setState(prevState=> ({
-                current_user: data.user
+                current_user: data.user,
+                current_cart:  data.user.carts[0]
                 }), ()=>{
                     if (localStorage.getItem('token')){
                         this.fetchCartProducts()
@@ -131,13 +134,13 @@ class ProductPage extends Component {
         })
         .then(r => r.json())
         .then(data => {
-            // debugger
+            // 
             if (data.user){
                 this.setState(prevState=> ({
                     current_user: data.user
                 }), () =>{
                     this.foundCart()
-                    // debugger
+                    // 
                     console.log(this.state.current_user)
                 })
                 
@@ -155,8 +158,23 @@ class ProductPage extends Component {
         e.preventDefault()
         localStorage.removeItem('token')
         this.setState(prevState=>({
-            current_user: null
+            current_user: null,
+            current_cart: null,
+            cartItems: []
         }))
+    }
+
+    deleteCartProductHandler = (object) => {
+        fetch(`http://localhost:3000/api/v1/cart_products/${object.id}`, {
+            method: "DELETE"
+        })
+        .then(r => r.json())
+        .then((nothing) => {
+            let copiedArray = [...this.state.cartItems]
+            let newList = copiedArray.filter(cartP => cartP.id !== object.id)
+            this.setState({ cartItems: newList})
+        })
+        .catch(console.log)
     }
     
 
@@ -177,7 +195,13 @@ class ProductPage extends Component {
             <button className="logout" onClick={this.logoutHandler}>Log Out</button>
             <br></br>
             <NavLink to="/cart">
-                <button>Cart</button>
+                {/* <button>Cart</button> */}
+                <Button animated='vertical'>
+                  <Button.Content hidden>{this.state.cartItems.map(cartP => cartP.quantity).reduce((a, b)=> a + b, 0)}</Button.Content>
+                  <Button.Content visible>
+                      <Icon name='shop' />
+                  </Button.Content>
+              </Button>
             </NavLink>
             </>
             : 
@@ -194,7 +218,7 @@ class ProductPage extends Component {
             <Switch>
                 <Route path="/signup" render={()=> <Signup/>} />
                 <Route path="/login" render={()=> <Login loginSubmitHandler={this.loginSubmitHandler}/>} />
-                <Route path="/cart" render={() => <Cart current_user={this.state.current_user} cartItems={this.state.cartItems} updateQuantityHandler={this.updateQuantityHandler} />}/> 
+                <Route path="/cart" render={() => <Cart current_user={this.state.current_user} cartItems={this.state.cartItems} updateQuantityHandler={this.updateQuantityHandler}  deleteCartProductHandler={ this.deleteCartProductHandler}/>}/> 
                 <Route path="/products" render={() => <ProductContainer  addingCartProducts={ this.addingCartProducts} />}/>
             </Switch>
            

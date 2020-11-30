@@ -18,7 +18,7 @@ class Product extends React.Component {
     // }
 
     render(){
-        console.log(this.props.product)
+        // console.log(this.props.product)
       return (
           <Card>
               <NavLink to={`/products/${this.props.product.id}`}>
@@ -39,11 +39,8 @@ class Product extends React.Component {
               </Card.Content>
               <Card.Content extra>
                 {localStorage.getItem('token') ? 
-              <Button onClick={this.addToCartHandler} animated='vertical'>
-                  <Button.Content hidden>Purchase</Button.Content>
-                  <Button.Content visible>
-                      <Icon name='shop' />
-                  </Button.Content>
+              <Button onClick={this.addToCartHandler} color="orange" >
+                  purchase
               </Button>
                 
                 : 

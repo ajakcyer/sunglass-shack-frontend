@@ -20,11 +20,10 @@ class Cart extends React.Component {
     }
 
     renderCartProducts = () => {
-        return this.props.cartItems.map(cartObj => <CartProduct key={cartObj.id} cartProduct={cartObj} updateQuantityHandler={this.props.updateQuantityHandler} />)
+        return this.props.cartItems.map(cartObj => <CartProduct key={cartObj.id} cartProduct={cartObj} updateQuantityHandler={this.props.updateQuantityHandler}  deleteCartProductHandler={this.props.deleteCartProductHandler} />)
     }
 
     render (){
-        
         // debugger
         return(
             <>
@@ -34,6 +33,7 @@ class Cart extends React.Component {
                         {this.renderCartProducts()}
                     </Item.Group>
                         <h1>Total ({this.cartQuantity()} items): ${this.cartTotalPrice()}</h1>
+                        {/* <button className="checkou" onClick={this.logoutHandler}>Log Out</button> */}
                     </>
                 
                 : 

@@ -29,7 +29,8 @@ export default class CartProduct extends Component {
     // }
 
     deleteProduct = () => {
-        console.log("deleted")
+        // console.log("deleted", this.props.cartProduct)
+        this.props.deleteCartProductHandler(this.props.cartProduct)
     }
 
     render() {
