@@ -11,10 +11,16 @@ class ProductPage extends Component {
 
     state = {
         cartItems: [],
-        current_user: null
+        current_user: null,
+        current_cart: null
+    }
+
+    currentUserCart = () =>{
+        debugger
     }
 
     addingCartProducts = (product) => {
+        // debugger
         fetch("http://localhost:3000/api/v1/cart_products", {
             method: "POST",
             headers: {
@@ -23,11 +29,36 @@ class ProductPage extends Component {
             },
             body: JSON.stringify({
                 product_id: product.id,
-                cart_id: 1
+                cart_id: this.state.current_cart.id
             })
         })
         .then(r => r.json())
         .then( newCartProduct => this.setState({ cartItems: [...this.state.cartItems, newCartProduct]}))
+    }
+
+    foundCart = () => {
+        if (this.state.current_user.carts.length > 0){
+            this.setState(prevState=>({
+                current_cart: this.state.current_user.carts[0]
+            }), () => this.fetchCartProducts() )
+            
+        } else {
+            fetch("http://localhost:3000/api/v1/carts", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    'user_id': this.state.current_user.id
+                })
+            })
+            .then(r => r.json())
+            .then(data => this.setState(prevState=>({
+                current_cart: data
+            })))
+            .catch(console.log)
+        }
     }
 
     fetchCartProducts = () =>{
@@ -105,10 +136,14 @@ class ProductPage extends Component {
                 this.setState(prevState=> ({
                     current_user: data.user
                 }), () =>{
-                    this.fetchCartProducts()
+                    this.foundCart()
+                    // debugger
+                    console.log(this.state.current_user)
                 })
+                
                 localStorage.setItem("token", data.jwt)
-                this.props.history.push('/cart')
+                this.props.history.push('/products')
+                
                 return
             }
             console.log(data)
@@ -126,7 +161,6 @@ class ProductPage extends Component {
     
 
     render(){
-        // console.log(this.state.current_user)
         return (
         <>  
             <Header />

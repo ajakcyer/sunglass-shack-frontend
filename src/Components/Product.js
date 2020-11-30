@@ -7,11 +7,12 @@ class Product extends React.Component {
     // console.log(this.props.product)
 
     addToCartHandler = () => {
-      // console.log("clicked", this.props.product)
+    //   console.log("clicked", this.props.product)
       this.props.addingCartProducts(this.props.product)
     }
 
     render(){
+        console.log(this.props.product)
       return (
           <Card>
               <Image src={this.props.product.image} wrapped ui={false} />
