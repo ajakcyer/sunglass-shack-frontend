@@ -31,7 +31,7 @@ export default class Login extends Component {
 
                 <Form.Field>
                     <label>Password</label>
-                    <input onChange={this.onChangeHandler} type="text" name="password" placeholder='enter password' value={this.state.password}/>
+                    <input onChange={this.onChangeHandler} type="password" name="password" placeholder='enter password' value={this.state.password}/>
                 </Form.Field>
                 
                 <Button type='submit'>Log In</Button>

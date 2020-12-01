@@ -30,10 +30,25 @@ class Cart extends React.Component {
 
     render (){
         // debugger
+        
         return(
             <>
                 <Switch>
-                    <Route path="/cart/checkout" render={() => <Checkout />}/>
+                    <Route path="/cart/checkout" render={() => {
+                        return (
+                            <>
+                                {localStorage.getItem('token') ?  
+                                    <>
+                                        <Checkout current_user={this.props.current_user} />
+                                    </> 
+                                : 
+                                    <Redirect to="/login"/>
+                                }
+                            </>
+                        )
+                    
+                    
+                    }}/>
                     <Route path="/cart" render={() => {
                         return (
                             <>
@@ -44,10 +59,15 @@ class Cart extends React.Component {
                                 {this.renderCartProducts()}
                             </Item.Group>
                                 <h1 style={{"float": "left", "margin": "0px"}}>Total ({this.cartQuantity()} items): ${this.cartTotalPrice()}</h1>
+                                {this.props.cartItems.length === 0 ?
+                                    null
+                                    :
                                 <NavLink to="/cart/checkout">
 
-                                <Button floated='right' color="olive" >Checkout!</Button>
+                                    <Button floated='right' color="olive" >Checkout!</Button>
                                 </NavLink>
+
+                                }
                             </> 
                         : 
                             <Redirect to="/login"/>
