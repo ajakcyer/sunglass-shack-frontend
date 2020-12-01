@@ -5,7 +5,7 @@ import Login from '../Auth/Login'
 import Signup from '../Auth/Signup'
 import Cart from '../Containers/Cart'
 import ProductContainer from '../Containers/ProductContainer'
-import { NavLink, Route, Switch, withRouter } from 'react-router-dom'
+import { NavLink, Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import {  Icon, Button } from 'semantic-ui-react'
 
 class ProductPage extends Component {
@@ -38,12 +38,15 @@ class ProductPage extends Component {
     }
 
     foundCart = () => {
-        
-        if (this.state.current_user.carts.length > 0){
-            this.setState(prevState=>({
-                current_cart: this.state.current_user.carts[0]
-            }), () =>  this.fetchCartProducts())
+        let thisCart = this.state.current_user.carts.find(cartObj => cartObj.history === false)
+        // debugger
+        if (thisCart){
             
+            this.setState(prevState=>({
+                current_cart: thisCart
+
+            }), () =>  this.fetchCartProducts())
+           
         } else {
             fetch("http://localhost:3000/api/v1/carts", {
                 method: 'POST',
@@ -56,9 +59,15 @@ class ProductPage extends Component {
                 })
             })
             .then(r => r.json())
-            .then(data => this.setState(prevState=>({
-                current_cart: data
-            })))
+            .then(data => {
+                let copiedUser = {...this.state.current_user}
+                copiedUser.carts.push(data)
+                this.setState(prevState=>({
+            
+                current_cart: data,
+                current_user: copiedUser
+
+            }))})
             .catch(console.log)
         }
     }
@@ -67,7 +76,7 @@ class ProductPage extends Component {
         fetch("http://localhost:3000/api/v1/cart_products")
         .then(r => r.json())
         .then(data => {
-            let thisUserProducts = data.filter(dataObj => dataObj.cart.user_id === this.state.current_user.id )
+            let thisUserProducts = data.filter(dataObj => dataObj.cart.user_id === this.state.current_user.id && dataObj.cart.history === false)
             // 
             this.setState({ cartItems: thisUserProducts})
         })
@@ -118,7 +127,6 @@ class ProductPage extends Component {
             })
             // console.log("not being warned:", updatedQuantity)
         }
-
     }
 
     loginSubmitHandler = (userInfo) =>{
@@ -140,16 +148,15 @@ class ProductPage extends Component {
                     current_user: data.user
                 }), () =>{
                     this.foundCart()
-                    // 
+                    
                     console.log(this.state.current_user)
                 })
                 
                 localStorage.setItem("token", data.jwt)
                 this.props.history.push('/products')
-                
                 return
             }
-            console.log(data)
+            // console.log(data)
         })
         .catch(console.log)
     }
@@ -176,9 +183,42 @@ class ProductPage extends Component {
         })
         .catch(console.log)
     }
+
+    checkoutHandler = (checkoutObj) => {
+        // console.log("purchased", checkoutObj, this.state.current_cart.id, this.state.current_user)
     
+        fetch(`http://localhost:3000/api/v1/carts/${this.state.current_cart.id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type":"application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({ history: true})
+        })
+        .then(r => r.json())
+        .then(updatedCart => {
+            let copiedUser = {...this.state.current_user}
+            let cartIndex = copiedUser.carts.findIndex(cart => cart.id === updatedCart.id)
+            copiedUser.carts[cartIndex] = updatedCart
+            // debugger
+            this.setState({ 
+                current_cart:null,
+                cartItems: [],
+                current_user: copiedUser
+            
+            }, () => {
+                this.foundCart()
+
+            })
+        })
+        .catch(console.log)
+
+
+        this.props.history.push("/cart/checkout/confirmation")
+    }
 
     render(){
+        // console.log(this.props)
         return (
         <>  
             <Header />
@@ -191,7 +231,6 @@ class ProductPage extends Component {
             <br></br>
             {localStorage.getItem('token') ? 
             <>
-
             <button className="logout" onClick={this.logoutHandler}>Log Out</button>
             <br></br>
             <NavLink to="/cart">
@@ -212,18 +251,23 @@ class ProductPage extends Component {
             <br></br>
             {/* <Signup />  */}
             </>
-
             }
 
-            <Switch>
-                <Route path="/signup" render={()=> <Signup/>} />
-                <Route path="/login" render={()=> <Login loginSubmitHandler={this.loginSubmitHandler}/>} />
-                <Route path="/cart" render={() => <Cart current_user={this.state.current_user} cartItems={this.state.cartItems} updateQuantityHandler={this.updateQuantityHandler}  deleteCartProductHandler={ this.deleteCartProductHandler}/>}/> 
-                <Route path="/products" render={() => <ProductContainer  addingCartProducts={ this.addingCartProducts} />}/>
-            </Switch>
-           
             
-           
+
+                <Switch>
+                    <Route path="/signup" render={()=> <Signup/>} />
+                    <Route path="/login" render={()=> <Login loginSubmitHandler={this.loginSubmitHandler}/>} />
+                   
+                   {this.state.current_user !== null ? 
+                   <Route path="/cart" render={() => <Cart current_user={this.state.current_user} cartItems={this.state.cartItems} updateQuantityHandler={this.updateQuantityHandler}  deleteCartProductHandler={ this.deleteCartProductHandler} checkoutHandler={this.checkoutHandler}/>}/> 
+                   : 
+                   null
+               }
+                   
+                   
+                   <Route path="/products" render={() => <ProductContainer  addingCartProducts={ this.addingCartProducts} />}/>
+                </Switch>
         </>
         )
     }

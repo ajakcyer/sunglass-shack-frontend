@@ -24,13 +24,11 @@ class Cart extends React.Component {
         return this.props.cartItems.map(cartObj => <CartProduct key={cartObj.id} cartProduct={cartObj} updateQuantityHandler={this.props.updateQuantityHandler}  deleteCartProductHandler={this.props.deleteCartProductHandler} />)
     }
 
-    // checkOutHandler = () => {
-
-    // }
+    
 
     render (){
         // debugger
-        
+        console.log(this.props)
         return(
             <>
                 <Switch>
@@ -39,7 +37,7 @@ class Cart extends React.Component {
                             <>
                                 {localStorage.getItem('token') ?  
                                     <>
-                                        <Checkout current_user={this.props.current_user} />
+                                        <Checkout current_user={this.props.current_user}checkoutHandler={this.props.checkoutHandler} cartItems={this.props.cartItems}/>
                                     </> 
                                 : 
                                     <Redirect to="/login"/>
