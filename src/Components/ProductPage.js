@@ -205,16 +205,48 @@ class ProductPage extends Component {
                 current_cart:null,
                 cartItems: [],
                 current_user: copiedUser
-            
             }, () => {
                 this.foundCart()
-
             })
         })
         .catch(console.log)
-
-
         this.props.history.push("/cart/checkout/confirmation")
+    }
+
+    signUpSubmitHandler = (userObj) => {
+        console.log("created!", userObj, this.state.current_user)
+
+        fetch("http://localhost:3000/api/v1/users", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                first_name: userObj.firstName,
+                last_name: userObj.lastName,
+                username: userObj.userName,
+                age: userObj.age,
+                email: userObj.email,
+                password: userObj.password1
+            })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.user){
+                this.setState(prevState=> ({
+                    current_user: data.user
+                }), () =>{
+                    this.foundCart()
+                    console.log(this.state.current_user)
+                })
+
+                localStorage.setItem("token", data.jwt)
+                this.props.history.push('/products')
+                return
+            }
+        })
+        .catch(console.log)
     }
 
     render(){
@@ -256,7 +288,7 @@ class ProductPage extends Component {
             
 
                 <Switch>
-                    <Route path="/signup" render={()=> <Signup/>} />
+                    <Route path="/signup" render={()=> <Signup  signUpSubmitHandler={this.signUpSubmitHandler} />} />
                     <Route path="/login" render={()=> <Login loginSubmitHandler={this.loginSubmitHandler}/>} />
                    
                    {this.state.current_user !== null ? 
