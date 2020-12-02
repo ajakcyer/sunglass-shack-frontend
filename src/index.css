@@ -12,6 +12,9 @@ code {
     monospace;
 }
 
-/* .product-info-image {
-  max-width: 100px;
-} */
+.product-image {
+  height: 250px;
+  width: 250px;
+  
+  object-fit: scale-down;
+}

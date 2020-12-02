@@ -37,7 +37,7 @@ class Cart extends React.Component {
                             <>
                                 {localStorage.getItem('token') ?  
                                     <>
-                                        <Checkout current_user={this.props.current_user}checkoutHandler={this.props.checkoutHandler} cartItems={this.props.cartItems}/>
+                                        <Checkout current_user={this.props.current_user}checkoutHandler={this.props.checkoutHandler} cartItems={this.props.cartItems} updatedUserInfoCheckout={this.props.updatedUserInfoCheckout}/>
                                     </> 
                                 : 
                                     <Redirect to="/login"/>

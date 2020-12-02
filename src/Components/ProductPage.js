@@ -184,7 +184,7 @@ class ProductPage extends Component {
         .catch(console.log)
     }
 
-    checkoutHandler = (checkoutObj) => {
+    checkoutHandler = () => {
         // console.log("purchased", checkoutObj, this.state.current_cart.id, this.state.current_user)
     
         fetch(`http://localhost:3000/api/v1/carts/${this.state.current_cart.id}`, {
@@ -249,6 +249,11 @@ class ProductPage extends Component {
         .catch(console.log)
     }
 
+    updatedUserInfoCheckout = () => {
+        console.log("updated", this.state.current_user)
+    }
+
+
     render(){
         // console.log(this.props)
         return (
@@ -284,15 +289,12 @@ class ProductPage extends Component {
             {/* <Signup />  */}
             </>
             }
-
-            
-
                 <Switch>
                     <Route path="/signup" render={()=> <Signup  signUpSubmitHandler={this.signUpSubmitHandler} />} />
                     <Route path="/login" render={()=> <Login loginSubmitHandler={this.loginSubmitHandler}/>} />
                    
                    {this.state.current_user !== null ? 
-                   <Route path="/cart" render={() => <Cart current_user={this.state.current_user} cartItems={this.state.cartItems} updateQuantityHandler={this.updateQuantityHandler}  deleteCartProductHandler={ this.deleteCartProductHandler} checkoutHandler={this.checkoutHandler}/>}/> 
+                   <Route path="/cart" render={() => <Cart current_user={this.state.current_user} cartItems={this.state.cartItems} updateQuantityHandler={this.updateQuantityHandler}  deleteCartProductHandler={ this.deleteCartProductHandler} checkoutHandler={this.checkoutHandler} updatedUserInfoCheckout={this.updatedUserInfoCheckout}/>}/> 
                    : 
                    null
                }
