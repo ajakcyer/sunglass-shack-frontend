@@ -15,6 +15,7 @@ code {
 .product-image {
   height: 250px;
   width: 250px;
+  margin: 0 auto;
   
   object-fit: scale-down;
 }
@@ -27,3 +28,8 @@ code {
 /* .sunglass-link{
   color: red;
 } */
+
+.loading{
+  margin: auto;
+  text-align: center;
+}

@@ -43,7 +43,7 @@ export default class CartProduct extends Component {
 
                 <Item.Content>
                     <Item.Header as='a'>{this.props.cartProduct.product.name}</Item.Header>
-                    <Item.Meta>Description</Item.Meta>
+                    <Item.Meta>{this.props.cartProduct.product.brand.name}</Item.Meta>
                     <Item.Description> {this.props.cartProduct.product.description}</Item.Description>
                     <Item.Extra>Price: ${this.props.cartProduct.product.price}</Item.Extra>
                 </Item.Content>

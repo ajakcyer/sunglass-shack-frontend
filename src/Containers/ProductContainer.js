@@ -54,7 +54,7 @@ class ProductContainer extends Component{
            
                 {this.state.products.length === 0 ? 
                 
-                <h1>Loading products...</h1>
+                <h1 className="loading">Loading products...</h1>
                 
                 : 
                     <>
@@ -62,7 +62,7 @@ class ProductContainer extends Component{
                             <Route path="/products/:id" render={({match})=> {
                                 let urlId = parseInt(match.params.id)
                                 let foundProduct = this.state.products.find(product=> product.id === urlId)
-                                return <ProductInfo product={foundProduct}/>
+                                return <ProductInfo product={foundProduct} addingCartProducts={this.props.addingCartProducts} />
 
                             }}/>
                             <Route path="/products" render={()=> (
@@ -75,7 +75,7 @@ class ProductContainer extends Component{
                                     <br></br>
                                     <br></br>
 
-                                    <Grid relaxed columns ={4}>
+                                    <Grid relaxed centered container columns={4}>
                                         {this.renderProducts()}
                                     </Grid>
                                 </>

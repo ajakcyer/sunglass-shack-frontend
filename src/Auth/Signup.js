@@ -10,7 +10,8 @@ export default class Signup extends Component {
         userName: "",
         email: "",
         password1: "",
-        password2: ""
+        password2: "",
+        clicked: false
     }
 
     localOnChangeHandler = (e) => {
@@ -20,6 +21,7 @@ export default class Signup extends Component {
     localSubmitHandler = (e) => {
         e.preventDefault()
         if (this.state.password1 === this.state.password2){
+            this.setState({clicked: true})
             this.props.signUpSubmitHandler(this.state)
         }else {
             alert("Passwords do not match, please try again!")
@@ -47,7 +49,8 @@ export default class Signup extends Component {
                 <Form.Input name="email" label='Email' placeholder='Email Address' value={this.state.email} onChange={this.localOnChangeHandler}/>
                 <Form.Input name="password1" type="password" label='Password' placeholder='Password' value={this.state.password} onChange={this.localOnChangeHandler}/>
                 <Form.Input name="password2" type="password" label='Confirm Password' placeholder='Password' value={this.state.password} onChange={this.localOnChangeHandler}/>
-                <Button>Create Account!</Button>
+               {this.state.clicked ?  <Button loading >Create Account!</Button> : <Button>Create Account!</Button>}
+                
             </Form>
             </>
         )
