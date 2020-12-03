@@ -18,7 +18,8 @@ class Checkout extends React.Component {
         phone: "",
         creditCardNum: "",
         expiration: "",
-        ccv: ""
+        ccv: "",
+        submitted: false
     }
 
     localOnChangeHandler = (e) => {
@@ -30,7 +31,7 @@ class Checkout extends React.Component {
         let stateObjectValues = Object.values(this.state)
         let filteredValues = stateObjectValues.filter(value => value === "N/A" || value.length < 1)
         if(filteredValues.length === 0){
-            
+            this.setState({submitted: true})
             this.props.updatedUserInfoCheckout(this.state)
             this.props.checkoutHandler()
         } else {
@@ -39,12 +40,12 @@ class Checkout extends React.Component {
     }
 
     render (){
-        // console.log(this.props.current_user)
+        console.log(this.props)
         return(
         
             <>
             <Switch>
-                <Route path="/cart/checkout/confirmation" render={() => <Confirmation current_user={this.props.current_user} />}/>
+                <Route path="/cart/checkout/confirmation" render={() => <Confirmation submitted={this.state.submitted} current_user={this.props.current_user} />}/>
                 <Route path="/cart/checkout" render={() => {
                     return(
 

@@ -33,3 +33,44 @@ code {
   margin: auto;
   text-align: center;
 }
+
+.each-slide > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  height: 350px;
+}
+
+.each-slide span {
+  padding: 20px;
+  font-size: 20px;
+  background: #efefef;
+  text-align: center;
+}
+
+.search-input {
+  float: right;
+}
+
+.filter-input {
+  float: left;
+}
+
+.inputs {
+  clear: both;
+  overflow: hidden;
+  margin: 20px 11% 0;
+}
+
+.header-1 {
+  text-align: center;
+  border-bottom: double black 6px;
+  padding-bottom: 10px;
+  padding-top: 15px;
+}
+
+.nav-links {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}

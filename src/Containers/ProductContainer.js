@@ -6,7 +6,8 @@ import 'semantic-ui-css/semantic.min.css'
 import {Grid, Advertisement } from 'semantic-ui-react'
 import { Route, Switch } from 'react-router-dom'
 import ProductInfo from '../Components/ProductInfo'
-
+import { Slide } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css'
 
 
 class ProductContainer extends Component{
@@ -48,6 +49,11 @@ class ProductContainer extends Component{
 
     render(){
         // console.log(this.filteredProductsByBrand())
+        const slideImages = [
+            'https://slack-imgs.com/?c=1&o1=ro&url=https%3A%2F%2Fmadmartech.com%2Fwp-content%2Fuploads%2F2019%2F05%2F970x250-1.png',
+            'https://www.gourmetads.com/wp-content/uploads/2019/02/970x250-starbucks.jpg',
+            'https://2020census.gov/content/dam/2020census/whole-story/influencer/not-too-late-970x250.jpg'
+          ];
         return (
             <>
             {/* <Advertisement as="img"unit='billboard' centered test='Billboard' />  */}
@@ -67,13 +73,34 @@ class ProductContainer extends Component{
                             }}/>
                             <Route path="/products" render={()=> (
                                 <>
-                                    <img className="ad-image" src="https://slack-imgs.com/?c=1&o1=ro&url=https%3A%2F%2Fmadmartech.com%2Fwp-content%2Fuploads%2F2019%2F05%2F970x250-1.png" />
-                                    <Search searchValue={this.searchValue} searchHandler={this.searchHandler}/>
-                                    <br></br>
-                                    <br></br>
-                                    <FilterByBrand  brandOnChange={this.brandOnChange} />
-                                    <br></br>
-                                    <br></br>
+                                    {/* <img className="ad-image" src="https://slack-imgs.com/?c=1&o1=ro&url=https%3A%2F%2Fmadmartech.com%2Fwp-content%2Fuploads%2F2019%2F05%2F970x250-1.png" /> */}
+                                    <div>
+                                        <Slide easing="ease">
+                                        <div className="each-slide">
+                                            <div style={{'backgroundImage': `url(${slideImages[0]})`}}>
+                                            {/* <span>Slide 1</span> */}
+                                            </div>
+                                        </div>
+                                        <div className="each-slide">
+                                            <div style={{'backgroundImage': `url(${slideImages[1]})`}}>
+                                            {/* <span>Slide 2</span> */}
+                                            </div>
+                                        </div>
+                                        <div className="each-slide">
+                                            <div style={{'backgroundImage': `url(${slideImages[2]})`}}>
+                                            {/* <span>Slide 3</span> */}
+                                            </div>
+                                        </div>
+                                        </Slide>
+                                    </div>
+
+                                    <div className="inputs">
+                                        <Search searchValue={this.searchValue} searchHandler={this.searchHandler}/>
+                                        <FilterByBrand  brandOnChange={this.brandOnChange} />
+
+                                    </div>
+                                        <br></br>
+                                        <br></br>
 
                                     <Grid relaxed centered container columns={4}>
                                         {this.renderProducts()}

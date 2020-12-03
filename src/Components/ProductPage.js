@@ -14,7 +14,8 @@ class ProductPage extends Component {
     state = {
         cartItems: [],
         current_user: null,
-        current_cart: null
+        current_cart: null,
+        activeItem: "sunglass"
     }
 
     addingCartProducts = (product) => {
@@ -178,7 +179,7 @@ class ProductPage extends Component {
             current_user: null,
             current_cart: null,
             cartItems: []
-        }))
+        }), ()=> this.props.history.push('/login'))
     }
 
     deleteCartProductHandler = (object) => {
@@ -299,6 +300,7 @@ class ProductPage extends Component {
         .catch(console.log)
     }
 
+    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
     render(){
         // console.log(this.props)
@@ -307,16 +309,22 @@ class ProductPage extends Component {
             <Header />
             {/* <Login />  */}
 
-            <Menu pointing secondary>
+            <Menu className="nav-links" pointing secondary>
           <Menu.Item
            children={<NavLink to="/products" className="sunglass-link">
            Sunglasses
-       </NavLink>}
+            </NavLink>}
+            name="sunglasses"
+            active={this.state.activeItem === 'sunglasses'}
+            onClick={this.handleItemClick}
           />
           <Menu.Item
             children={<NavLink to="/aboutus" className="aboutus-link">
             About Us
                     </NavLink>}
+                    name="aboutus"
+                    active={this.state.activeItem === 'aboutus'}
+                    onClick={this.handleItemClick}
           />
           
           <Menu.Menu position='right'>

@@ -37,9 +37,9 @@ class Product extends React.Component {
               </Card.Content>
               <Card.Content extra>
                 {localStorage.getItem('token') ? 
-              <Button onClick={this.addToCartHandler} color="orange" >
-                {this.state.flipped ? "In Cart!" : "Add to Cart"}
-              </Button>
+              <Button onClick={this.addToCartHandler} color="orange" icon="shopping bag" content={this.state.flipped ? "In Cart!" : "Add to Cart"}/>
+                // {this.state.flipped ? "In Cart!" : "Add to Cart"}
+              // {/* </Button> */}
                 : 
                 <>
                 <NavLink to="/login">Login </NavLink>

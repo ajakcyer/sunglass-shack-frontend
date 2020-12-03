@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Dropdown } from 'semantic-ui-react'
 
 export default class FilterByBrand extends Component {
 
@@ -18,20 +19,17 @@ export default class FilterByBrand extends Component {
     renderBrandOptions = () => {
         return this.state.brands.map(brand => <option key={brand.id} value={brand.name}> {brand.name}</option>)
     }
-
-    // brandProducts = () => {
-    //     let singleBrand = this.state.brands.filter(brand => brand.name === this.state.selectedBrand)
-    //     return singleBrand.map(brandObj => brandObj.products )
-    // }
+    
 
     render() {
      
         // { this.brandProducts()}
         return (
-            <select onChange={this.props.brandOnChange} > 
+            <select className="filter-input" onChange={this.props.brandOnChange} > 
                 <option value="">Select Brand</option>
                  {this.renderBrandOptions()}
             </select>
+            
         )
     }
 }
