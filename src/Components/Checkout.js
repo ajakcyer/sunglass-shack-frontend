@@ -27,14 +27,12 @@ class Checkout extends React.Component {
 
     localSubmitHandler = (e) => {
         e.preventDefault()
-        this.props.checkoutHandler(this.state)
-        // <Redirect to={"/cart/checkout/confirmation"}/>
+        this.props.checkoutHandler()
+        this.props.updatedUserInfoCheckout(this.state)
     }
 
-    
-  
     render (){
-        console.log(this.props.current_user)
+        // console.log(this.props.current_user)
         return(
         
             <>

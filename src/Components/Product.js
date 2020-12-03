@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Switch } from 'react-router-dom'
 import 'semantic-ui-css/semantic.min.css'
 import { Card, Icon, Image, Button } from 'semantic-ui-react'
 
@@ -23,7 +23,7 @@ class Product extends React.Component {
           <Card>
               <NavLink to={`/products/${this.props.product.id}`}>
                   <Card>
-                  <Image onClick={this.localClickHandler} src={this.props.product.image} wrapped ui={false} />
+                  <img className="product-image" onClick={this.localClickHandler} src={this.props.product.image} />
 
                   </Card>
                 </NavLink>
@@ -34,7 +34,7 @@ class Product extends React.Component {
                   <span className='date'>${this.props.product.price}</span>
               </Card.Meta>
               <Card.Description>
-                  {this.props.product.description}
+                  {this.props.product.brand.name}
               </Card.Description>
               </Card.Content>
               <Card.Content extra>
@@ -42,7 +42,6 @@ class Product extends React.Component {
               <Button onClick={this.addToCartHandler} color="orange" >
                   purchase
               </Button>
-                
                 : 
                 <>
                 <NavLink to="/login">Login </NavLink>
