@@ -21,12 +21,14 @@ class ProductPage extends Component {
     // }
 
     addingCartProducts = (product) => {
-        // 
+        const token = localStorage.getItem('token')
+        
         fetch("http://localhost:3000/api/v1/cart_products", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/json"
+                "Accept": "application/json",
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify({
                 product_id: product.id,
@@ -48,11 +50,13 @@ class ProductPage extends Component {
             }), () =>  this.fetchCartProducts())
            
         } else {
+            const token = localStorage.getItem('token')
             fetch("http://localhost:3000/api/v1/carts", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
+                    "Authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     'user_id': this.state.current_user.id
@@ -73,7 +77,13 @@ class ProductPage extends Component {
     }
 
     fetchCartProducts = () =>{
-        fetch("http://localhost:3000/api/v1/cart_products")
+        const token = localStorage.getItem('token')
+        fetch("http://localhost:3000/api/v1/cart_products",{
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
         .then(r => r.json())
         .then(data => {
             let thisUserProducts = data.filter(dataObj => dataObj.cart.user_id === this.state.current_user.id && dataObj.cart.history === false)
@@ -110,11 +120,13 @@ class ProductPage extends Component {
         console.log("testing", cartProduct, updatedQuantity) 
         
         if(updatedQuantity >= 1 && updatedQuantity <= 4){
+            const token = localStorage.getItem('token')
             fetch(`http://localhost:3000/api/v1/cart_products/${cartProduct.id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
-                    "Accept": "application/json"
+                    "Accept": "application/json",
+                    "Authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify({ quantity: updatedQuantity })
             })
@@ -131,12 +143,13 @@ class ProductPage extends Component {
 
     loginSubmitHandler = (userInfo) =>{
         // console.log("in pp app", userInfo)
-
+        const token = localStorage.getItem('token')
         fetch("http://localhost:3000/api/v1/login", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify({user: userInfo})
         })
@@ -172,8 +185,12 @@ class ProductPage extends Component {
     }
 
     deleteCartProductHandler = (object) => {
+        const token = localStorage.getItem('token')
         fetch(`http://localhost:3000/api/v1/cart_products/${object.id}`, {
-            method: "DELETE"
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
         })
         .then(r => r.json())
         .then((nothing) => {
@@ -186,12 +203,13 @@ class ProductPage extends Component {
 
     checkoutHandler = () => {
         // console.log("purchased", checkoutObj, this.state.current_cart.id, this.state.current_user)
-    
+        const token = localStorage.getItem('token')
         fetch(`http://localhost:3000/api/v1/carts/${this.state.current_cart.id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type":"application/json",
-                "Accept": "application/json"
+                "Accept": "application/json",
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify({ history: true})
         })
@@ -215,12 +233,13 @@ class ProductPage extends Component {
 
     signUpSubmitHandler = (userObj) => {
         console.log("created!", userObj, this.state.current_user)
-
-        fetch("http://localhost:3000/api/v1/users", {
+        const token = localStorage.getItem('token')
+        fetch("http://localhost:3000/api/v1/users", {   
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/json"
+                "Accept": "application/json",
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify({
                 first_name: userObj.firstName,
@@ -249,8 +268,38 @@ class ProductPage extends Component {
         .catch(console.log)
     }
 
-    updatedUserInfoCheckout = () => {
-        console.log("updated", this.state.current_user)
+    updatedUserInfoCheckout = (userState) => {
+        console.log("updated", this.state.current_user, userState)
+        const token = localStorage.getItem('token')
+
+        fetch(`http://localhost:3000/api/v1/users/${this.state.current_user.id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({
+
+                first_name: userState.firstName ,
+                last_name: userState.lastName,
+                address: userState.address,
+                address2: userState.address2,
+                city: userState.city,
+                state: userState.state,
+                zipcode: userState.zipCode,
+                email: userState.email
+            })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data){
+                this.setState(prevState=> ({
+                    current_user: data
+                }))
+            }
+        })
+        .catch(console.log)
     }
 
 

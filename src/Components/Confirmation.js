@@ -4,11 +4,8 @@ import { Item } from 'semantic-ui-react'
 
 export default class Confirmation extends Component {
 
-    
-
-
     render() {
-        console.log(this.props.cartItems)
+        console.log(this.props.current_user)
         return (
 
             <>

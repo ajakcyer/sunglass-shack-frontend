@@ -27,12 +27,12 @@ class Checkout extends React.Component {
 
     localSubmitHandler = (e) => {
         e.preventDefault()
-        // this.props.checkoutHandler()
+        this.props.checkoutHandler()
         this.props.updatedUserInfoCheckout(this.state)
     }
 
     render (){
-        console.log(this.props.current_user)
+        // console.log(this.props.current_user)
         return(
         
             <>
