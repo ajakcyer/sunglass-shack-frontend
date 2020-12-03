@@ -3,7 +3,7 @@ import Product from '../Components/Product'
 import Search from '../Components/Search'
 import FilterByBrand from '../Components/FilterByBrand'
 import 'semantic-ui-css/semantic.min.css'
-import {Grid } from 'semantic-ui-react'
+import {Grid, Advertisement } from 'semantic-ui-react'
 import { Route, Switch } from 'react-router-dom'
 import ProductInfo from '../Components/ProductInfo'
 
@@ -15,6 +15,7 @@ class ProductContainer extends Component{
         products: [],
         searchValue: "",
         selectedBrand: ""
+        
     }
 
     componentDidMount = () =>{
@@ -49,6 +50,8 @@ class ProductContainer extends Component{
         // console.log(this.filteredProductsByBrand())
         return (
             <>
+            {/* <Advertisement as="img"unit='billboard' centered test='Billboard' />  */}
+           
                 {this.state.products.length === 0 ? 
                 
                 <h1>Loading products...</h1>
@@ -64,6 +67,7 @@ class ProductContainer extends Component{
                             }}/>
                             <Route path="/products" render={()=> (
                                 <>
+                                    <img className="ad-image" src="https://slack-imgs.com/?c=1&o1=ro&url=https%3A%2F%2Fmadmartech.com%2Fwp-content%2Fuploads%2F2019%2F05%2F970x250-1.png" />
                                     <Search searchValue={this.searchValue} searchHandler={this.searchHandler}/>
                                     <br></br>
                                     <br></br>
@@ -76,22 +80,9 @@ class ProductContainer extends Component{
                                     </Grid>
                                 </>
                             )}/>
-                            
-
                         </Switch>
                     </>
-                
                 }
-                {/* <Search searchValue={this.searchValue} searchHandler={this.searchHandler}/>
-                <br></br>
-                <br></br>
-                <FilterByBrand  brandOnChange={this.brandOnChange} />
-                <br></br>
-                <br></br>
-
-                <Grid relaxed columns ={4}>
-                    {this.renderProducts()}
-                </Grid> */}
             </>
         )
     }

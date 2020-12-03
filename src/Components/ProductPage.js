@@ -6,7 +6,8 @@ import Signup from '../Auth/Signup'
 import Cart from '../Containers/Cart'
 import ProductContainer from '../Containers/ProductContainer'
 import { NavLink, Route, Switch, withRouter, Redirect } from 'react-router-dom'
-import {  Icon, Button } from 'semantic-ui-react'
+import {  Icon, Button, Menu} from 'semantic-ui-react'
+import AboutUs from './AboutUs'
 
 class ProductPage extends Component {
 
@@ -15,10 +16,6 @@ class ProductPage extends Component {
         current_user: null,
         current_cart: null
     }
-
-    // currentUserCart = () =>{
-        
-    // }
 
     addingCartProducts = (product) => {
         const token = localStorage.getItem('token')
@@ -310,45 +307,53 @@ class ProductPage extends Component {
             <Header />
             {/* <Login />  */}
 
-            <NavLink to="/products">
-                Sunglasses
-            </NavLink>
-
-            <br></br>
-            {localStorage.getItem('token') ? 
+            <Menu pointing secondary>
+          <Menu.Item
+           children={<NavLink to="/products" className="sunglass-link">
+           Sunglasses
+       </NavLink>}
+          />
+          <Menu.Item
+            children={<NavLink to="/aboutus" className="aboutus-link">
+            About Us
+                    </NavLink>}
+          />
+          
+          <Menu.Menu position='right'>
+          {localStorage.getItem('token') ? 
             <>
-            <button className="logout" onClick={this.logoutHandler}>Log Out</button>
-            <br></br>
-            <NavLink to="/cart">
-                {/* <button>Cart</button> */}
-                <Button animated='vertical'>
-                  <Button.Content hidden>{this.state.cartItems.map(cartP => cartP.quantity).reduce((a, b)=> a + b, 0)}</Button.Content>
-                  <Button.Content visible>
+                <Menu.Item children={<button className="logout" onClick={this.logoutHandler}>Log Out</button>} />
+
+                <Menu.Item children={ <NavLink to="/cart">
+                
+                    <Button animated='vertical'>
+                    <Button.Content hidden>{this.state.cartItems.map(cartP => cartP.quantity).reduce((a, b)=> a + b, 0)}</Button.Content>
+                    <Button.Content visible>
                       <Icon name='shop' />
                   </Button.Content>
               </Button>
-            </NavLink>
+            </NavLink>}/>
+            
             </>
             : 
             <>
-            <NavLink to="/login">Log In</NavLink>
-            <br></br>
-            <NavLink to="/signup">Sign up</NavLink>
-            <br></br>
-            {/* <Signup />  */}
+            <Menu.Item children={ <NavLink to="/login">Log In</NavLink> } />
+            <Menu.Item children={ <NavLink to="/signup">Sign up</NavLink>} />
+           
             </>
             }
+          </Menu.Menu>
+             </Menu>
                 <Switch>
                     <Route path="/signup" render={()=> <Signup  signUpSubmitHandler={this.signUpSubmitHandler} />} />
                     <Route path="/login" render={()=> <Login loginSubmitHandler={this.loginSubmitHandler}/>} />
-                   
+                    
                    {this.state.current_user !== null ? 
                    <Route path="/cart" render={() => <Cart current_user={this.state.current_user} cartItems={this.state.cartItems} updateQuantityHandler={this.updateQuantityHandler}  deleteCartProductHandler={ this.deleteCartProductHandler} checkoutHandler={this.checkoutHandler} updatedUserInfoCheckout={this.updatedUserInfoCheckout}/>}/> 
                    : 
                    null
                }
-                   
-                   
+                    <Route path="/aboutus" render={() => <AboutUs />}/>
                    <Route path="/products" render={() => <ProductContainer  addingCartProducts={ this.addingCartProducts} />}/>
                 </Switch>
         </>

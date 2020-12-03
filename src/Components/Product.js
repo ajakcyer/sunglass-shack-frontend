@@ -4,18 +4,16 @@ import 'semantic-ui-css/semantic.min.css'
 import { Card, Icon, Image, Button } from 'semantic-ui-react'
 
 class Product extends React.Component {
-    // console.log(this.props.product)
+   
+  state = {
+    flipped: false
+  }
 
     addToCartHandler = () => {
     //   console.log("clicked", this.props.product)
       this.props.addingCartProducts(this.props.product)
+      this.setState({ flipped: true})
     }
-
-    // localClickHandler = () =>{
-    //     console.log("clicked")
-
-    //     <NavLink to={`/products/${this.props.product.id}`}></NavLink>
-    // }
 
     render(){
         // console.log(this.props.product)
@@ -40,7 +38,7 @@ class Product extends React.Component {
               <Card.Content extra>
                 {localStorage.getItem('token') ? 
               <Button onClick={this.addToCartHandler} color="orange" >
-                  purchase
+                {this.state.flipped ? "In Cart!" : "Add to Cart"}
               </Button>
                 : 
                 <>

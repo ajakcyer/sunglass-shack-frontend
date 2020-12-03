@@ -27,8 +27,15 @@ class Checkout extends React.Component {
 
     localSubmitHandler = (e) => {
         e.preventDefault()
-        this.props.checkoutHandler()
-        this.props.updatedUserInfoCheckout(this.state)
+        let stateObjectValues = Object.values(this.state)
+        let filteredValues = stateObjectValues.filter(value => value === "N/A" || value.length < 1)
+        if(filteredValues.length === 0){
+            
+            this.props.updatedUserInfoCheckout(this.state)
+            this.props.checkoutHandler()
+        } else {
+            alert("Every field must be completed ‼️")
+        }
     }
 
     render (){
@@ -46,8 +53,8 @@ class Checkout extends React.Component {
                 <Form onSubmit={this.localSubmitHandler} action="/cart/checkout/" >
                     <h2>User Info:</h2>
                     <Form.Group unstackable widths={2}>
-                        <Form.Input name="firstName" label='First name' placeholder='First name' value={this.state.firstName} onChange={this.localOnChangeHandler}/>
-                        <Form.Input name="lastName" label='Last name' placeholder='Last name' value={this.state.lastName} onChange={this.localOnChangeHandler}/>
+                        <Form.Input name="firstName" label='First name' placeholder='First name' value={this.state.firstName} />
+                        <Form.Input name="lastName" label='Last name' placeholder='Last name' value={this.state.lastName} />
                     </Form.Group>
 
                     <Form.Group unstackable widths={2}>

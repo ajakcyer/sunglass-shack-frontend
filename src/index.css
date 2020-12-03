@@ -18,3 +18,12 @@ code {
   
   object-fit: scale-down;
 }
+
+.ad-image{
+  margin: 10px auto;
+  display: block;
+}
+
+/* .sunglass-link{
+  color: red;
+} */
