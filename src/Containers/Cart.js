@@ -24,11 +24,8 @@ class Cart extends React.Component {
         return this.props.cartItems.map(cartObj => <CartProduct key={cartObj.id} cartProduct={cartObj} updateQuantityHandler={this.props.updateQuantityHandler}  deleteCartProductHandler={this.props.deleteCartProductHandler} />)
     }
 
-    
-
     render (){
-        // debugger
-        console.log(this.props)
+        
         return(
             <>
                 <Switch>
@@ -44,40 +41,32 @@ class Cart extends React.Component {
                                 }
                             </>
                         )
-                    
-                    
                     }}/>
                     <Route path="/cart" render={() => {
                         return (
                             <>
-
-                            {localStorage.getItem('token') ?  
-                            <>
-                            <Item.Group>
-                                {this.renderCartProducts()}
-                            </Item.Group>
-                                <h1 style={{"float": "left", "margin": "0px"}}>Total ({this.cartQuantity()} items): ${this.cartTotalPrice()}</h1>
-                                {this.props.cartItems.length === 0 ?
-                                    null
-                                    :
-                                <NavLink to="/cart/checkout">
-
-                                    <Button floated='right' color="olive" >Checkout!</Button>
-                                </NavLink>
-
+                                {localStorage.getItem('token') ?  
+                                    <>
+                                        <Item.Group>
+                                            {this.renderCartProducts()}
+                                        </Item.Group>
+                                        <h1 style={{"float": "left", "margin": "0px"}}>Total ({this.cartQuantity()} items): ${this.cartTotalPrice()}</h1>
+                                        {this.props.cartItems.length === 0 ?
+                                            null
+                                            :
+                                            <NavLink to="/cart/checkout">
+                                                <Button floated='right' color="black" >Checkout!</Button>
+                                            </NavLink>
+                                        }
+                                    </> 
+                                    : 
+                                    <Redirect to="/login"/>
                                 }
-                            </> 
-                        : 
-                            <Redirect to="/login"/>
-                        }
                             </>
                         )
-
                     }}/>
-
                 </Switch>
             </>
-
         ) 
     }
 }

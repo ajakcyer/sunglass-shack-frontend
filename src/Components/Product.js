@@ -9,50 +9,44 @@ class Product extends React.Component {
     flipped: false
   }
 
-    addToCartHandler = () => {
-    //   console.log("clicked", this.props.product)
-      this.props.addingCartProducts(this.props.product)
-      this.setState({ flipped: true})
-    }
+  addToCartHandler = () => {
+    this.props.addingCartProducts(this.props.product)
+    this.setState({ flipped: true})
+  }
 
-    render(){
-        // console.log(this.props.product)
-      return (
+  render(){
+    return (
+      <Card>
+        <NavLink to={`/products/${this.props.product.id}`}>
           <Card>
-              <NavLink to={`/products/${this.props.product.id}`}>
-                  <Card>
-                  <img className="product-image" onClick={this.localClickHandler} src={this.props.product.image} />
-
-                  </Card>
-                </NavLink>
-              
-              <Card.Content>
-              <Card.Header>{this.props.product.name}</Card.Header>
-              <Card.Meta>
-                  <span className='date'>${this.props.product.price}</span>
-              </Card.Meta>
-              <Card.Description>
-                  {this.props.product.brand.name}
-              </Card.Description>
-              </Card.Content>
-              <Card.Content extra>
-                {localStorage.getItem('token') ? 
-              <Button onClick={this.addToCartHandler} color="orange" icon="shopping bag" content={this.state.flipped ? "In Cart!" : "Add to Cart"}/>
-                // {this.state.flipped ? "In Cart!" : "Add to Cart"}
-              // {/* </Button> */}
-                : 
-                <>
-                <NavLink to="/login">Login </NavLink>
-                or 
-                <NavLink to="/signup"> Sign up </NavLink>
-                to shop
-                </>
-                }
-              </Card.Content>
+            <img className="product-image" onClick={this.localClickHandler} src={this.props.product.image} />
           </Card>
-      )
-
-    }
+        </NavLink>
+              
+        <Card.Content>
+          <Card.Header>{this.props.product.name}</Card.Header>
+            <Card.Meta>
+              <span className='date'>${this.props.product.price}</span>
+            </Card.Meta>
+          <Card.Description>
+            {this.props.product.brand.name}
+          </Card.Description>
+          </Card.Content>
+          <Card.Content extra>
+          {localStorage.getItem('token') ? 
+          <Button onClick={this.addToCartHandler} color="black" icon="shopping bag" content={this.state.flipped ? "In Cart!" : "Add to Cart"}/>
+          : 
+          <>
+            <NavLink to="/login">Login </NavLink>
+            or 
+            <NavLink to="/signup"> Sign up </NavLink>
+            to shop
+          </>
+          }
+        </Card.Content>
+      </Card>
+    )
+  }
 }
 
 export default Product; 

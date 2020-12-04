@@ -39,16 +39,14 @@ class ProductPage extends Component {
 
     foundCart = () => {
         let thisCart = this.state.current_user.carts.find(cartObj => cartObj.history === false)
-        // debugger
-        if (thisCart){
-            
+
+        if(thisCart){      
             this.setState(prevState=>({
                 current_cart: thisCart
-
-            }), () =>  this.fetchCartProducts())
-           
-        } else {
+            }), () =>  this.fetchCartProducts())          
+        }else {
             const token = localStorage.getItem('token')
+
             fetch("http://localhost:3000/api/v1/carts", {
                 method: 'POST',
                 headers: {
@@ -65,10 +63,8 @@ class ProductPage extends Component {
                 let copiedUser = {...this.state.current_user}
                 copiedUser.carts.push(data)
                 this.setState(prevState=>({
-            
                 current_cart: data,
                 current_user: copiedUser
-
             }))})
             .catch(console.log)
         }
@@ -85,7 +81,6 @@ class ProductPage extends Component {
         .then(r => r.json())
         .then(data => {
             let thisUserProducts = data.filter(dataObj => dataObj.cart.user_id === this.state.current_user.id && dataObj.cart.history === false)
-            // 
             this.setState({ cartItems: thisUserProducts})
         })
     }
@@ -99,7 +94,6 @@ class ProductPage extends Component {
         })
         .then(r=>r.json())
         .then(data => {
-            // 
             if(data.user){
                 this.setState(prevState=> ({
                 current_user: data.user,
@@ -107,7 +101,6 @@ class ProductPage extends Component {
                 }), ()=>{
                     if (localStorage.getItem('token')){
                         this.fetchCartProducts()
-            
                     }
                 })
             }
@@ -135,12 +128,10 @@ class ProductPage extends Component {
                 copiedArray[oldObject] = newItem
                 this.setState({ cartItems: copiedArray})
             })
-            // console.log("not being warned:", updatedQuantity)
         }
     }
 
     loginSubmitHandler = (userInfo) =>{
-        // console.log("in pp app", userInfo)
         const token = localStorage.getItem('token')
         fetch("http://localhost:3000/api/v1/login", {
             method: 'POST',
@@ -153,21 +144,17 @@ class ProductPage extends Component {
         })
         .then(r => r.json())
         .then(data => {
-            // 
             if (data.user){
                 this.setState(prevState=> ({
                     current_user: data.user
                 }), () =>{
                     this.foundCart()
-                    
-                    console.log(this.state.current_user)
                 })
                 
                 localStorage.setItem("token", data.jwt)
                 this.props.history.push('/products')
                 return
             }
-            // console.log(data)
         })
         .catch(console.log)
     }
@@ -191,7 +178,7 @@ class ProductPage extends Component {
             }
         })
         .then(r => r.json())
-        .then((nothing) => {
+        .then(() => {
             let copiedArray = [...this.state.cartItems]
             let newList = copiedArray.filter(cartP => cartP.id !== object.id)
             this.setState({ cartItems: newList})
@@ -200,7 +187,6 @@ class ProductPage extends Component {
     }
 
     checkoutHandler = () => {
-        // console.log("purchased", checkoutObj, this.state.current_cart.id, this.state.current_user)
         const token = localStorage.getItem('token')
         fetch(`http://localhost:3000/api/v1/carts/${this.state.current_cart.id}`, {
             method: "PATCH",
@@ -216,7 +202,7 @@ class ProductPage extends Component {
             let copiedUser = {...this.state.current_user}
             let cartIndex = copiedUser.carts.findIndex(cart => cart.id === updatedCart.id)
             copiedUser.carts[cartIndex] = updatedCart
-            // debugger
+
             this.setState({ 
                 current_cart:null,
                 cartItems: [],
@@ -255,7 +241,6 @@ class ProductPage extends Component {
                     current_user: data.user
                 }), () =>{
                     this.foundCart()
-                    console.log(this.state.current_user)
                 })
 
                 localStorage.setItem("token", data.jwt)
@@ -267,7 +252,6 @@ class ProductPage extends Component {
     }
 
     updatedUserInfoCheckout = (userState) => {
-        console.log("updated", this.state.current_user, userState)
         const token = localStorage.getItem('token')
 
         fetch(`http://localhost:3000/api/v1/users/${this.state.current_user.id}`, {
@@ -303,68 +287,62 @@ class ProductPage extends Component {
     handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
     render(){
-        // console.log(this.props)
         return (
         <>  
             <Header />
-            {/* <Login />  */}
-
             <Menu className="nav-links" pointing secondary>
-          <Menu.Item
-           children={<NavLink to="/products" className="sunglass-link">
-           Sunglasses
-            </NavLink>}
-            name="sunglasses"
-            active={this.state.activeItem === 'sunglasses'}
-            onClick={this.handleItemClick}
-          />
-          <Menu.Item
-            children={<NavLink to="/aboutus" className="aboutus-link">
-            About Us
-                    </NavLink>}
+                <Menu.Item
+                    children={<NavLink to="/products" className="sunglass-link">Sunglasses</NavLink>} 
+                    name="sunglasses"
+                    active={this.state.activeItem === 'sunglasses'}
+                    onClick={this.handleItemClick}
+                />
+
+                 <Menu.Item
+                    children={<NavLink to="/aboutus" className="aboutus-link"> About Us </NavLink>}
                     name="aboutus"
                     active={this.state.activeItem === 'aboutus'}
                     onClick={this.handleItemClick}
-          />
-          
-          <Menu.Menu position='right'>
-          {localStorage.getItem('token') ? 
-            <>
-                <Menu.Item children={<button className="logout" onClick={this.logoutHandler}>Log Out</button>} />
-
-                <Menu.Item children={ <NavLink to="/cart">
-                
-                    <Button animated='vertical'>
-                    <Button.Content hidden>{this.state.cartItems.map(cartP => cartP.quantity).reduce((a, b)=> a + b, 0)}</Button.Content>
-                    <Button.Content visible>
-                      <Icon name='shop' />
-                  </Button.Content>
-              </Button>
-            </NavLink>}/>
+                />
             
-            </>
-            : 
-            <>
-            <Menu.Item children={ <NavLink to="/login">Log In</NavLink> } />
-            <Menu.Item children={ <NavLink to="/signup">Sign up</NavLink>} />
-           
-            </>
-            }
-          </Menu.Menu>
+                <Menu.Menu position='right'>
+                    {localStorage.getItem('token') ? 
+                            <>
+                                <Menu.Item children={<button className="logout" onClick={this.logoutHandler}>Log Out</button>} />
+
+                                <Menu.Item children={ 
+                                    <NavLink to="/cart">
+                            
+                                        <Button animated='vertical'>
+                                            <Button.Content hidden>{this.state.cartItems.map(cartP => cartP.quantity).reduce((a, b)=> a + b, 0)}</Button.Content>
+                                            <Button.Content visible>
+                                            <Icon name='shop'  />
+                                            </Button.Content>
+                                        </Button>
+                                    </NavLink>
+                                }/>
+                            </>
+                        : 
+                        <>
+                            <Menu.Item children={ <NavLink to="/login" className="login-link">Log In</NavLink> } />
+                            <Menu.Item children={ <NavLink to="/signup" className="signup-link">Sign up</NavLink>} />
+                        </>
+                    }
+                </Menu.Menu>
              </Menu>
                 <Switch>
                     <Route path="/signup" render={()=> <Signup  signUpSubmitHandler={this.signUpSubmitHandler} />} />
                     <Route path="/login" render={()=> <Login loginSubmitHandler={this.loginSubmitHandler}/>} />
                     
                    {this.state.current_user !== null ? 
-                   <Route path="/cart" render={() => <Cart current_user={this.state.current_user} cartItems={this.state.cartItems} updateQuantityHandler={this.updateQuantityHandler}  deleteCartProductHandler={ this.deleteCartProductHandler} checkoutHandler={this.checkoutHandler} updatedUserInfoCheckout={this.updatedUserInfoCheckout}/>}/> 
-                   : 
-                   null
-               }
+                        <Route path="/cart" render={() => <Cart current_user={this.state.current_user} cartItems={this.state.cartItems} updateQuantityHandler={this.updateQuantityHandler}  deleteCartProductHandler={ this.deleteCartProductHandler} checkoutHandler={this.checkoutHandler} updatedUserInfoCheckout={this.updatedUserInfoCheckout}/>}/> 
+                    : 
+                    null
+                    }    
                     <Route path="/aboutus" render={() => <AboutUs />}/>
-                   <Route path="/products" render={() => <ProductContainer  addingCartProducts={ this.addingCartProducts} />}/>
+                    <Route path="/products" render={() => <ProductContainer  addingCartProducts={ this.addingCartProducts} />}/>
                 </Switch>
-        </>
+            </>
         )
     }
 }

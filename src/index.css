@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: antiquewhite;
 }
 
 code {
@@ -25,9 +26,33 @@ code {
   display: block;
 }
 
-/* .sunglass-link{
-  color: red;
-} */
+.sunglass-link{
+  color: black;
+}
+
+.aboutus-link{
+  color: black;
+}
+
+.signup-link{
+  color: black;
+}
+
+.login-link{
+  color: black;
+}
+
+.logout {
+  background: none!important;
+  border: none;
+  padding: 0!important;
+  /*optional*/
+  font-family: arial, sans-serif;
+  /*input has OS specific font-family*/
+  color:black;
+  text-decoration: none;
+  cursor: pointer;
+}
 
 .loading{
   margin: auto;
@@ -73,4 +98,28 @@ code {
 .nav-links {
   margin-top: 0px;
   margin-bottom: 0px;
+}
+
+.about-us-text{
+  text-align: center;
+  /* margin-left: auto;
+  margin-right: auto; */
+  margin: 0px 25%;
+}
+
+.float {
+  float: right;
+  margin-left: 30px;
+}
+.clearboth {
+  clear: both;
+}
+.modal-content {
+  border-bottom: solid grey 1px;
+}
+.reviewcartbtn {
+  float: right;
+}
+.hideoverflow {
+  overflow: hidden;
 }
