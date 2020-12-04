@@ -32,7 +32,7 @@ class Product extends React.Component {
             {this.props.product.brand.name}
           </Card.Description>
           </Card.Content>
-          <Card.Content extra>
+          <Card.Content className="addtocartholder" extra>
           {localStorage.getItem('token') ? 
           <Button onClick={this.addToCartHandler} color="black" icon="shopping bag" content={this.state.flipped ? "In Cart!" : "Add to Cart"}/>
           : 

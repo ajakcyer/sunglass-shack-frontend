@@ -47,6 +47,7 @@ class Cart extends React.Component {
                             <>
                                 {localStorage.getItem('token') ?  
                                     <>
+                                    <div className="cart-margin">
                                         <Item.Group>
                                             {this.renderCartProducts()}
                                         </Item.Group>
@@ -58,6 +59,8 @@ class Cart extends React.Component {
                                                 <Button floated='right' color="black" >Checkout!</Button>
                                             </NavLink>
                                         }
+
+                                    </div>
                                     </> 
                                     : 
                                     <Redirect to="/login"/>

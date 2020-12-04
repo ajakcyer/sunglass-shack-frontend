@@ -17,7 +17,7 @@ export default class ProductInfo extends Component {
         console.log("Clicked product:", this.props.product)
         return (
             <>
-            <Item>
+            <Item className="product-info-cont">
                 <Item.Image size="large" src={this.props.product.image} />
 
                 <Item.Content>
@@ -25,6 +25,7 @@ export default class ProductInfo extends Component {
                     <Item.Meta>
                     <span className='cinema'>$ {this.props.product.price}</span>
                     </Item.Meta>
+                    <label className="desc-tag">Description: </label>
                     <Item.Description>{this.props.product.description}</Item.Description>
                     <Item.Extra>
                     <Button onClick={this.addToCartHandler} primary floated='right'>

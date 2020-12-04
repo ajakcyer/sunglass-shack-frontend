@@ -23,7 +23,7 @@ export default class Login extends Component {
     render() {
         return (
             <>
-            <Form onSubmit={this.localSubmit}>
+            <Form className="format-forms" onSubmit={this.localSubmit}>
                 <Form.Field>
                     <label>Username</label>
                     <input onChange={this.onChangeHandler} type="text" name="username" placeholder='enter username' value={this.state.username} />
@@ -34,7 +34,7 @@ export default class Login extends Component {
                     <input onChange={this.onChangeHandler} type="password" name="password" placeholder='enter password' value={this.state.password}/>
                 </Form.Field>
                 
-                <Button type='submit'>Log In</Button>
+                <Button color="black" type='submit'>Log In</Button>
             </Form>
             </>
         )

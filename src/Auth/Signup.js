@@ -31,7 +31,7 @@ export default class Signup extends Component {
     render() {
         return (
             <>
-                <Form onSubmit={this.localSubmitHandler} action="/cart/checkout/" >
+                <Form className="format-forms" onSubmit={this.localSubmitHandler} action="/cart/checkout/" >
                     <h2>User Info:</h2>
                     <Form.Group unstackable widths={2}>
                         <Form.Input name="firstName" label='First Name' placeholder='First Name' value={this.state.firstName} onChange={this.localOnChangeHandler}/>
@@ -46,7 +46,7 @@ export default class Signup extends Component {
                     <Form.Input name="email" label='Email' placeholder='Email Address' value={this.state.email} onChange={this.localOnChangeHandler}/>
                     <Form.Input name="password1" type="password" label='Password' placeholder='Password' value={this.state.password} onChange={this.localOnChangeHandler}/>
                     <Form.Input name="password2" type="password" label='Confirm Password' placeholder='Password' value={this.state.password} onChange={this.localOnChangeHandler}/>
-                    {this.state.clicked ?  <Button loading >Create Account!</Button> : <Button>Create Account!</Button>}
+                    {this.state.clicked ?  <Button color="black" loading >Create Account!</Button> : <Button color="black">Create Account!</Button>}
                     
                 </Form>
             </>

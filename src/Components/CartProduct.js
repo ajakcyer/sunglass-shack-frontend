@@ -27,10 +27,12 @@ export default class CartProduct extends Component {
     render() { 
         return (
                 <>
-                    <Item>
+                    <Item className="cart-margin">
                         <Item.Image size='tiny' src={this.props.cartProduct.product.image} />
                         <Item.Content>
                             <Item.Header as='a'>{this.props.cartProduct.product.name}</Item.Header>
+                            <br></br><br></br>
+                            <label className="desc-tag">Description: </label>
                             <Item.Description> {this.props.cartProduct.product.description}</Item.Description>
                             <Item.Extra>Price: ${this.props.cartProduct.product.price}</Item.Extra>
                         </Item.Content>

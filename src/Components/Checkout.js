@@ -67,11 +67,15 @@ class Checkout extends React.Component {
                     <Route path="/cart/checkout" render={() => {
                     return(
                         <>
+                        <div className="form-modal">
+
+
+
                             <Modal
                                 open={this.state.open}
                                 onClose={() => this.setState({open: false})}
                                 onOpen={() => this.setState({open: true})}
-                                trigger={<Button className="reviewcartbtn">Review Cart</Button>}
+                                trigger={<Button color="black" className="reviewcartbtn">Review Cart</Button>}
                                 >
                                     <Modal.Header>Your Current Cart</Modal.Header>
                                     {/* <Modal.Content image scrolling> */}
@@ -121,8 +125,9 @@ class Checkout extends React.Component {
                                 </Form.Group>
 
                                 <Form.Checkbox label='I agree to the Terms and Conditions' />
-                                <Button type='submit'> Place your order</Button>
+                                <Button color="black" type='submit'> Place your order</Button>
                             </Form>
+                        </div>
                         </>
                     )
                 }}/>
