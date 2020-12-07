@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+<!-- # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -67,4 +67,17 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 ### `yarn build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify) -->
+
+### Sunglass Shack
+
+A web app made using React frontend with a Rails backend.
+
+This is a mock e-commerce web app that sells sunglasses at discounted prices.
+
+### How to run locally
+1. Clone this repository in your terminal by running `git clone https://github.com/ajakcyer/sunglass-shack-frontend.git`
+    a. Also clone the backend repository to run the server for the data `git clone https://github.com/BryamVicente/sunglass-shack-backend.git`
+    b. Make sure to run `rails db:create`, `rails db:migrate`, `rails db:seed`
+2. Open this file in your text editor and run `npm install` to get the required npm packages
+3. Start up your react server by running `npm start`
