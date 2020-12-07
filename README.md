@@ -77,7 +77,7 @@ This is a mock e-commerce web app that sells sunglasses at discounted prices.
 
 ### How to run locally
 1. Clone this repository in your terminal by running `git clone https://github.com/ajakcyer/sunglass-shack-frontend.git`
-    a. Also clone the backend repository to run the server for the data `git clone https://github.com/BryamVicente/sunglass-shack-backend.git`
-    b. Make sure to run `rails db:create`, `rails db:migrate`, `rails db:seed`
+    - Also clone the backend repository to run the server for the data `git clone https://github.com/BryamVicente/sunglass-shack-backend.git`
+    - Make sure to run `rails db:create`, `rails db:migrate`, `rails db:seed`
 2. Open this file in your text editor and run `npm install` to get the required npm packages
 3. Start up your react server by running `npm start`
